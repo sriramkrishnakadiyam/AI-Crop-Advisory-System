@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Advisory - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>AgriTech AI</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span>📊 Dashboard</span></a>
+                <a href="crop-recommendation.html"><span>🌱 Crop Advisory</span></a>
+                <a href="fertilizer-advisory.html" class="active"><span>🧪 Fertilizer</span></a>
+                <a href="irrigation-advisory.html"><span>💧 Irrigation</span></a>
+                <a href="crop-rotation.html"><span>🔄 Rotation</span></a>
+                <a href="yield-prediction.html"><span>📈 Yield Prediction</span></a>
+                <a href="history.html"><span>📜 History</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="navbar">
+                <div class="nav-title" style="font-weight: 600; font-size: 1.2rem;">Fertilizer Advisory Engine</div>
+            </header>
+
+            <div class="page-content animate-fade-in">
+                
+                <div class="form-card mb-2">
+                    <h2 class="mb-1" style="color: var(--primary-dark);">Soil Nutrient Check</h2>
+                    <p class="mb-2" style="color: var(--text-muted); font-size: 0.95rem;">Check your soil's NPK status and get general fertilizer recommendations.</p>
+                    
+                    <form id="fertilizerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crop">Select Crop</label>
+                                <select id="crop" class="form-control" required>
+                                    <option value="">Select Crop...</option>
+                                    <option value="Rice">Rice</option>
+                                    <option value="Wheat">Wheat</option>
+                                    <option value="Maize">Maize</option>
+                                    <option value="Cotton">Cotton</option>
+                                    <option value="Sugarcane">Sugarcane</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ph">Soil pH</label>
+                                <input type="number" step="0.1" id="ph" class="form-control" placeholder="e.g. 6.5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="n">Nitrogen (N) kg/ha</label>
+                                <input type="number" id="n" class="form-control" placeholder="e.g. 100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="p">Phosphorus (P) kg/ha</label>
+                                <input type="number" id="p" class="form-control" placeholder="e.g. 40" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="k">Potassium (K) kg/ha</label>
+                                <input type="number" id="k" class="form-control" placeholder="e.g. 40" required>
+                            </div>
+                        </div>
+
+                        <div class="mt-1" style="text-align: right;">
+                            <button type="submit" class="btn btn-primary" style="padding: 15px 40px; font-size: 1.1rem;">
+                                Analyze Nutrients 🧪
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Section -->
+                <div id="fertilizerResults" class="card" style="display: none;">
+                    <h2 class="card-title">Advisory Report</h2>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                        <div style="padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 1rem; margin-bottom: 5px;">Nitrogen (N)</h3>
+                            <strong id="nStatus" style="font-size: 1.2rem;"></strong>
+                        </div>
+                        <div style="padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 1rem; margin-bottom: 5px;">Phosphorus (P)</h3>
+                            <strong id="pStatus" style="font-size: 1.2rem;"></strong>
+                        </div>
+                        <div style="padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 1rem; margin-bottom: 5px;">Potassium (K)</h3>
+                            <strong id="kStatus" style="font-size: 1.2rem;"></strong>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--bg-color); padding: 20px; border-radius: 8px;">
+                        <h4 style="color: var(--primary-dark); margin-bottom: 10px;">Recommendation Category: <span id="fertCategory" style="color: var(--primary-color);"></span></h4>
+                        <p id="advisoryMessage" style="color: var(--text-main); line-height: 1.6;"></p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="js/cropData.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/fertilizer.js"></script>
+</body>
+</html>

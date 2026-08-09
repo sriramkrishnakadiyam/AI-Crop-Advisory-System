@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Rotation - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header"><h2>AgriTech AI</h2></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span>📊 Dashboard</span></a>
+                <a href="crop-recommendation.html"><span>🌱 Crop Advisory</span></a>
+                <a href="fertilizer-advisory.html"><span>🧪 Fertilizer</span></a>
+                <a href="irrigation-advisory.html"><span>💧 Irrigation</span></a>
+                <a href="crop-rotation.html" class="active"><span>🔄 Rotation</span></a>
+                <a href="yield-prediction.html"><span>📈 Yield Prediction</span></a>
+                <a href="history.html"><span>📜 History</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar"><div class="nav-title">Crop Rotation Planner</div></header>
+
+            <div class="page-content animate-fade-in">
+                <div class="form-card mb-2">
+                    <form id="rotationForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Previous Crop</label>
+                                <select id="prevCrop" class="form-control" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Crop</label>
+                                <select id="currCrop" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="mt-1" style="text-align: right;">
+                            <button type="submit" class="btn btn-primary">Plan Next Crop 🔄</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="rotationResults" class="card" style="display: none;">
+                    <h2 class="card-title" style="color: var(--primary-dark);">Next Crop Recommendation</h2>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <h3 id="recNextCrop" style="font-size: 1.8rem; color: var(--primary-color);"></h3>
+                        <p><strong>Benefit:</strong> <span id="rotBenefit"></span></p>
+                        <p><strong>Soil Health:</strong> <span id="rotSoil"></span></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/cropData.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cropRotation.js"></script>
+</body>
+</html>

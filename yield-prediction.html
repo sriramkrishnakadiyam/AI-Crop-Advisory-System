@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yield Prediction - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header"><h2>AgriTech AI</h2></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span>📊 Dashboard</span></a>
+                <a href="crop-recommendation.html"><span>🌱 Crop Advisory</span></a>
+                <a href="fertilizer-advisory.html"><span>🧪 Fertilizer</span></a>
+                <a href="irrigation-advisory.html"><span>💧 Irrigation</span></a>
+                <a href="crop-rotation.html"><span>🔄 Rotation</span></a>
+                <a href="yield-prediction.html" class="active"><span>📈 Yield Prediction</span></a>
+                <a href="history.html"><span>📜 History</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar"><div class="nav-title">Yield Estimator</div></header>
+
+            <div class="page-content animate-fade-in">
+                <div class="form-card mb-2">
+                    <p class="mb-2 text-muted">Estimate expected crop yield based on environmental factors and land area.</p>
+                    <form id="yieldForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Crop</label>
+                                <select id="yieldCrop" class="form-control" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Land Area (Hectares)</label>
+                                <input type="number" step="0.1" id="yieldArea" class="form-control" placeholder="e.g. 2.5" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Average Season Temp (°C)</label>
+                                <input type="number" id="yieldTemp" class="form-control" placeholder="e.g. 28" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Expected Rainfall (mm)</label>
+                                <input type="number" id="yieldRain" class="form-control" placeholder="e.g. 800" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Soil Nitrogen (kg/ha)</label>
+                                <input type="number" id="yieldN" class="form-control" placeholder="e.g. 100" required>
+                            </div>
+                        </div>
+                        <div class="mt-1" style="text-align: right;">
+                            <button type="submit" class="btn btn-primary">Estimate Yield 📊</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="yieldResults" class="card" style="display: none;">
+                    <h2 class="card-title">Estimated Production</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Expected Yield</div>
+                            <div id="resYield" style="font-size: 2rem; font-weight: bold; color: var(--primary-color);"></div>
+                            <div style="font-size: 0.8rem;">tonnes/hectare</div>
+                        </div>
+                        <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Total Production</div>
+                            <div id="resTotal" style="font-size: 2rem; font-weight: bold; color: var(--info);"></div>
+                            <div style="font-size: 0.8rem;">tonnes</div>
+                        </div>
+                        <div style="background: var(--bg-color); padding: 20px; border-radius: 8px; text-align: center;">
+                            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Category</div>
+                            <div id="resCategory" style="font-size: 1.5rem; font-weight: bold; margin-top: 10px;"></div>
+                        </div>
+                    </div>
+                    <p style="margin-top:20px; font-size: 0.85rem; color: var(--text-muted);">* Note: This is a statistical estimation based on idealized agronomic conditions. Actual yields may vary due to pests, diseases, and precise farm management practices.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/cropData.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/yieldPrediction.js"></script>
+</body>
+</html>

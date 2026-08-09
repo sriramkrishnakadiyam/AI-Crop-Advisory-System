@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>AgriTech AI</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="active"><span>📊 Dashboard</span></a>
+                <a href="crop-recommendation.html"><span>🌱 Crop Advisory</span></a>
+                <a href="#"><span>🧪 Fertilizer</span></a>
+                <a href="#"><span>💧 Irrigation</span></a>
+                <a href="#"><span>🔄 Rotation</span></a>
+                <a href="#"><span>📈 Yield Prediction</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="navbar">
+                <div class="nav-title" style="font-weight: 600; font-size: 1.2rem;">Farmer Dashboard</div>
+                <div class="user-profile">
+                    <span style="background: var(--primary-light); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">Welcome, Farmer</span>
+                </div>
+            </header>
+
+            <div class="page-content animate-fade-in">
+                <h1 class="mb-2">Farm Overview</h1>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <!-- Stat Cards -->
+                    <div class="card">
+                        <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px;">Current Season</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary-dark);">Kharif</div>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px;">Current Crop</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--info);">Rice</div>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px;">Avg Temperature</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--danger);">28°C</div>
+                    </div>
+                    <div class="card">
+                        <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px;">Rainfall Forecast</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">200 mm</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Recent AI Recommendations</h2>
+                    <p style="color: var(--text-muted);">Please navigate to the <a href="crop-recommendation.html" style="color: var(--primary-color); font-weight: 600;">Crop Advisory</a> module to generate new recommendations.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
