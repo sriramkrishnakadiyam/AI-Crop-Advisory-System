@@ -10,8 +10,8 @@
     --secondary-light: #fff263;
     --secondary-dark: #c49000;
     
-    --bg-color: #f4f7f6;
-    --card-bg: rgba(255, 255, 255, 0.9);
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
     
     --text-main: #2c3e50;
     --text-muted: #7f8c8d;
@@ -68,7 +68,7 @@ body {
 
 .sidebar {
     width: var(--sidebar-width);
-    background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    background: #198754; /* Solid green matching screenshot */
     color: white;
     height: 100vh;
     position: fixed;
@@ -81,7 +81,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
 }
 
 .sidebar-header h2 {
@@ -105,9 +105,8 @@ body {
 }
 
 .sidebar-nav a:hover, .sidebar-nav a.active {
-    background: rgba(255,255,255,0.1);
+    background: #20c997; /* Lighter green for active state */
     color: white;
-    border-left: 4px solid var(--secondary-color);
 }
 
 .main-content {
@@ -136,14 +135,9 @@ body {
     flex: 1;
 }
 
-/* Glassmorphism Background Pattern */
+/* Background Pattern Removed to match screenshot */
 .bg-pattern {
-    background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
-    background-size: 30px 30px;
-    opacity: 0.1;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: -1;
+    display: none;
 }
 
 /* Animations */

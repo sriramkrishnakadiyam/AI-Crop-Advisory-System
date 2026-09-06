@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" style="display: flex; flex-direction: column;">
+            <div class="sidebar-header" style="text-align: left; padding-left: 20px; align-items: flex-start; padding-top: 20px; height: auto; border-bottom: none;">
+                <h2 style="font-size: 1.5rem; line-height: 1.2;">Farmer Friendly<br>App</h2>
+            </div>
+            <nav class="sidebar-nav" style="flex: 1;">
+                <a href="dashboard.html"><span style="display: inline-block; width: 20px;">📊</span> Dashboard</a>
+                <a href="crop-recommendation.html"><span style="display: inline-block; width: 20px;">🌱</span> Crop Recommendation</a>
+                <a href="disease-detection.html" class="active"><span style="display: inline-block; width: 20px;">🦠</span> Disease Detection</a>
+                <a href="fertilizer-advisory.html"><span style="display: inline-block; width: 20px;">🧪</span> Fertilizer Advisory</a>
+                <a href="ai-chatbot.html"><span style="display: inline-block; width: 20px;">🤖</span> AI Chatbot</a>
+                <a href="weather.html"><span style="display: inline-block; width: 20px;">☁️</span> Weather</a>
+                
+                <div style="padding: 15px 25px; margin-top: 10px;">
+                    <div style="color: rgba(255,255,255,0.8); margin-bottom: 8px; font-weight: 500;">
+                        <span style="display: inline-block; width: 20px;">🌍</span> Language
+                    </div>
+                    <select style="width: 100%; padding: 8px; border-radius: 4px; border: none; font-family: inherit; color: var(--text-main);">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                    </select>
+                </div>
+            </nav>
+            <div style="padding: 15px; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.8);">
+                <div>&copy; 2026</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content animate-fade-in">
+                <h1 class="mb-2">Disease Detection</h1>
+                
+                <div class="card" style="max-width: 650px; padding: 30px;">
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600;">Crop Type</label>
+                            <select id="ddCrop" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: white; font-family: inherit;">
+                                <option value="">-- Select crop --</option>
+                                <option>Rice</option>
+                                <option>Wheat</option>
+                                <option>Maize</option>
+                                <option>Cotton</option>
+                                <option>Sugarcane</option>
+                                <option>Tomato</option>
+                                <option>Potato</option>
+                                <option>Mango</option>
+                                <option>Banana</option>
+                                <option>Groundnut</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600;">Describe symptoms</label>
+                            <textarea id="ddSymptoms" rows="3" placeholder="e.g., yellow spots on leaves, wilting, brown patches, white powder..." 
+                                style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; font-size: 0.95rem; resize: vertical;"></textarea>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="font-weight: 600;">Upload leaf image (optional)</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <input type="file" id="ddImage" accept="image/*" 
+                                    style="flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 4px;">
+                            </div>
+                            <div id="imagePreview" style="display:none; margin-top: 10px;">
+                                <img id="previewImg" src="" alt="Leaf preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #ddd;">
+                            </div>
+                        </div>
+
+                        <button id="detectBtn" style="background-color: #d32f2f; color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background 0.2s;"
+                            onmouseover="this.style.background='#b71c1c'" onmouseout="this.style.background='#d32f2f'">
+                            🔬 Detect Disease
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="ddResults" class="card" style="display: none; max-width: 650px; margin-top: 25px; padding: 30px;">
+                    <h2 id="ddDiseaseName" style="color: #d32f2f; margin-bottom: 15px;"></h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div style="padding: 15px; background: #fff8f8; border-radius: 8px; border-left: 4px solid #d32f2f;">
+                            <div style="font-size: 0.85rem; color: #888; margin-bottom: 5px;">Confidence</div>
+                            <div id="ddConfidence" style="font-weight: bold; font-size: 1.2rem; color: #d32f2f;"></div>
+                        </div>
+                        <div style="padding: 15px; background: #f8fff8; border-radius: 8px; border-left: 4px solid #2e7d32;">
+                            <div style="font-size: 0.85rem; color: #888; margin-bottom: 5px;">Severity</div>
+                            <div id="ddSeverity" style="font-weight: bold; font-size: 1.2rem; color: #2e7d32;"></div>
+                        </div>
+                    </div>
+                    <h3 style="margin-bottom: 10px; color: #333;">Treatment Recommendations</h3>
+                    <ul id="ddTreatment" style="padding-left: 20px; line-height: 2;"></ul>
+                    <p id="ddNote" style="margin-top: 15px; padding: 12px; background: #fffde7; border-radius: 6px; font-size: 0.9rem; color: #555;"></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // Disease Detection Engine
+    const diseaseDB = {
+        'Rice': {
+            keywords: ['blast', 'brown spot', 'yellow', 'lesion', 'necrosis', 'sheath blight', 'tungro', 'discolor'],
+            diseases: [
+                { name: 'Rice Blast', confidence: '87%', severity: 'High', treatment: ['Apply Tricyclazole 75 WP @ 0.6 g/L water', 'Spray Carbendazim 50 WP @ 1 g/L water', 'Avoid excess Nitrogen fertilizer', 'Use resistant varieties: IR-64, Swarna'], note: '⚠️ Rice blast is caused by the fungus Magnaporthe oryzae. Spray immediately after symptoms appear.' },
+                { name: 'Brown Spot', confidence: '82%', severity: 'Medium', treatment: ['Spray Mancozeb 75 WP @ 2 g/L', 'Seed treatment with Captan 75 WP', 'Improve soil potassium levels'], note: '⚠️ Brown spot is linked to nutrient deficiency. Ensure balanced NPK application.' }
+            ]
+        },
+        'Wheat': {
+            keywords: ['rust', 'yellow stripe', 'powdery', 'brown', 'orange', 'pustule', 'mildew'],
+            diseases: [
+                { name: 'Wheat Yellow Rust', confidence: '91%', severity: 'High', treatment: ['Spray Propiconazole 25 EC @ 0.1%', 'Apply Tebuconazole @ 1 ml/L', 'Use resistant varieties: HD-3086, HI-8498', 'Apply fungicide at first sign of disease'], note: '⚠️ Yellow rust spreads rapidly in cool, humid weather. Act within 24 hours of detection.' },
+                { name: 'Powdery Mildew', confidence: '85%', severity: 'Medium', treatment: ['Spray Sulphur WP 80% @ 2.5 g/L', 'Apply Carbendazim + Mancozeb combo', 'Improve air circulation by proper spacing'], note: '⚠️ Powdery mildew thrives in high humidity with low rainfall.' }
+            ]
+        },
+        'Tomato': {
+            keywords: ['blight', 'wilt', 'leaf curl', 'mosaic', 'spot', 'brown', 'black', 'rot'],
+            diseases: [
+                { name: 'Late Blight (Phytophthora)', confidence: '89%', severity: 'High', treatment: ['Spray Copper Oxychloride 50 WP @ 3 g/L', 'Apply Metalaxyl + Mancozeb @ 2.5 g/L', 'Remove and destroy infected plant parts', 'Avoid overhead irrigation'], note: '⚠️ Late blight can destroy entire fields within days. Begin spray at first sign.' },
+                { name: 'Tomato Mosaic Virus', confidence: '78%', severity: 'Medium', treatment: ['Remove and destroy infected plants immediately', 'Control aphid vectors with Imidacloprid', 'Use virus-free certified seeds', 'Disinfect tools with bleach solution'], note: '⚠️ No chemical cure for viruses — prevention and vector control are key.' }
+            ]
+        },
+        'Cotton': {
+            keywords: ['bollworm', 'wilt', 'leaf curl', 'pink', 'american', 'spot', 'defoliation'],
+            diseases: [
+                { name: 'Cotton Leaf Curl Virus', confidence: '85%', severity: 'High', treatment: ['Control whitefly vectors: Thiamethoxam 25 WG @ 0.3 g/L', 'Remove and destroy infected plants', 'Use CLCuV-resistant varieties: MNH-786', 'Apply neem oil @ 5 ml/L preventively'], note: '⚠️ Cotton Leaf Curl Virus is transmitted by whiteflies. There is no chemical cure.' }
+            ]
+        },
+        'Potato': {
+            keywords: ['blight', 'brown', 'black', 'rot', 'scab', 'wilt', 'spots'],
+            diseases: [
+                { name: 'Late Blight (Potato)', confidence: '90%', severity: 'High', treatment: ['Spray Cymoxanil + Mancozeb @ 2.5 g/L', 'Apply Chlorothalonil 75 WP @ 2 g/L', 'Harvest immediately if severe', 'Store in cool, dry ventilated place'], note: '⚠️ Same pathogen as Tomato Late Blight. Acts fast in cool, wet weather.' }
+            ]
+        }
+    };
+
+    const defaultDisease = {
+        name: 'General Fungal Infection (Unspecified)',
+        confidence: '65%',
+        severity: 'Low–Medium',
+        treatment: [
+            'Spray broad-spectrum fungicide: Mancozeb 75 WP @ 2 g/L',
+            'Remove and destroy heavily infected plant parts',
+            'Improve drainage and reduce humidity around plants',
+            'Apply neem oil @ 5 ml/L as preventive spray'
+        ],
+        note: '⚠️ Diagnosis is based on symptom description. For precise identification, consult your local KVK (Krishi Vigyan Kendra) or agriculture extension officer.'
+    };
+
+    document.getElementById('ddImage').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('detectBtn').addEventListener('click', function() {
+        const crop = document.getElementById('ddCrop').value;
+        const symptoms = document.getElementById('ddSymptoms').value.toLowerCase();
+
+        if (!crop) {
+            alert('Please select a crop first.');
+            return;
+        }
+
+        this.textContent = '🔬 Analyzing...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            this.textContent = '🔬 Detect Disease';
+            this.disabled = false;
+
+            let result = defaultDisease;
+            const cropDB = diseaseDB[crop];
+
+            if (cropDB && symptoms) {
+                for (const kw of cropDB.keywords) {
+                    if (symptoms.includes(kw)) {
+                        result = cropDB.diseases[0];
+                        break;
+                    }
+                }
+                if (result === defaultDisease && cropDB.diseases.length > 0) {
+                    result = cropDB.diseases[0];
+                }
+            } else if (cropDB) {
+                result = cropDB.diseases[0];
+            }
+
+            document.getElementById('ddDiseaseName').textContent = '🦠 Detected: ' + result.name;
+            document.getElementById('ddConfidence').textContent = result.confidence;
+            document.getElementById('ddSeverity').textContent = result.severity;
+
+            const treatmentList = document.getElementById('ddTreatment');
+            treatmentList.innerHTML = '';
+            result.treatment.forEach(t => {
+                const li = document.createElement('li');
+                li.textContent = t;
+                treatmentList.appendChild(li);
+            });
+
+            document.getElementById('ddNote').textContent = result.note;
+
+            const resultsDiv = document.getElementById('ddResults');
+            resultsDiv.style.display = 'block';
+            resultsDiv.classList.add('animate-fade-in');
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 1200);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "ai-crop-advisory-system",
+  "version": "1.0.0",
+  "description": "AI-powered crop advisory system for Indian farmers using HTML, CSS, and Vanilla JavaScript",
+  "scripts": {
+    "kill-port": "npx -y kill-port 3001",
+    "dev": "npx -y kill-port 3001 && http-server . -p 3001 -o --cors -c-1",
+    "start": "npx -y kill-port 3001 && http-server . -p 3001 -o --cors -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "author": "AI Crop Advisory Team",
+  "license": "ISC"
+}

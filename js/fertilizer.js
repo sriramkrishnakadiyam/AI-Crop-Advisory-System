@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             
             const crop = document.getElementById('crop').value;
-            const ph = parseFloat(document.getElementById('ph').value);
-            const n = parseFloat(document.getElementById('n').value);
-            const p = parseFloat(document.getElementById('p').value);
-            const k = parseFloat(document.getElementById('k').value);
+            const ph = document.getElementById('ph') ? parseFloat(document.getElementById('ph').value) : 6.5;
+            const n = document.getElementById('n') ? parseFloat(document.getElementById('n').value) : 50;
+            const p = document.getElementById('p') ? parseFloat(document.getElementById('p').value) : 30;
+            const k = document.getElementById('k') ? parseFloat(document.getElementById('k').value) : 20;
 
             const result = FertilizerEngine.analyze(crop, n, p, k, ph);
             

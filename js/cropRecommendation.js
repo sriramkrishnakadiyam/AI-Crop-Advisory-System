@@ -92,17 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Gather inputs
+            // Gather inputs (using mock data for scientific fields if they don't exist in the mockup UI)
             const inputs = {
-                season: document.getElementById('season').value,
-                soilType: document.getElementById('soilType').value,
-                temp: parseFloat(document.getElementById('temp').value),
-                humidity: parseFloat(document.getElementById('humidity').value),
-                rainfall: parseFloat(document.getElementById('rainfall').value),
-                ph: parseFloat(document.getElementById('ph').value),
-                n: parseFloat(document.getElementById('n').value),
-                p: parseFloat(document.getElementById('p').value),
-                k: parseFloat(document.getElementById('k').value),
+                season: document.getElementById('season') ? document.getElementById('season').value : 'Kharif',
+                soilType: document.getElementById('soilType') ? document.getElementById('soilType').value : 'Loamy',
+                temp: document.getElementById('temp') ? parseFloat(document.getElementById('temp').value) : 25,
+                humidity: document.getElementById('humidity') ? parseFloat(document.getElementById('humidity').value) : 70,
+                rainfall: document.getElementById('rainfall') ? parseFloat(document.getElementById('rainfall').value) : 100,
+                ph: document.getElementById('ph') ? parseFloat(document.getElementById('ph').value) : 6.5,
+                n: document.getElementById('n') ? parseFloat(document.getElementById('n').value) : 90,
+                p: document.getElementById('p') ? parseFloat(document.getElementById('p').value) : 42,
+                k: document.getElementById('k') ? parseFloat(document.getElementById('k').value) : 43,
             };
 
             // Validate

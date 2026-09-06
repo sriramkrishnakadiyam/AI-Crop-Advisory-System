@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <style>
+        .weather-icon { font-size: 3rem; }
+        .forecast-card {
+            text-align: center;
+            padding: 15px 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s;
+        }
+        .forecast-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" style="display: flex; flex-direction: column;">
+            <div class="sidebar-header" style="text-align: left; padding-left: 20px; align-items: flex-start; padding-top: 20px; height: auto; border-bottom: none;">
+                <h2 style="font-size: 1.5rem; line-height: 1.2;">Farmer Friendly<br>App</h2>
+            </div>
+            <nav class="sidebar-nav" style="flex: 1;">
+                <a href="dashboard.html"><span style="display: inline-block; width: 20px;">📊</span> Dashboard</a>
+                <a href="crop-recommendation.html"><span style="display: inline-block; width: 20px;">🌱</span> Crop Recommendation</a>
+                <a href="disease-detection.html"><span style="display: inline-block; width: 20px;">🦠</span> Disease Detection</a>
+                <a href="fertilizer-advisory.html"><span style="display: inline-block; width: 20px;">🧪</span> Fertilizer Advisory</a>
+                <a href="ai-chatbot.html"><span style="display: inline-block; width: 20px;">🤖</span> AI Chatbot</a>
+                <a href="weather.html" class="active"><span style="display: inline-block; width: 20px;">☁️</span> Weather</a>
+                
+                <div style="padding: 15px 25px; margin-top: 10px;">
+                    <div style="color: rgba(255,255,255,0.8); margin-bottom: 8px; font-weight: 500;">
+                        <span style="display: inline-block; width: 20px;">🌍</span> Language
+                    </div>
+                    <select style="width: 100%; padding: 8px; border-radius: 4px; border: none; font-family: inherit; color: var(--text-main);">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                    </select>
+                </div>
+            </nav>
+            <div style="padding: 15px; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.8);">
+                <div>&copy; 2026</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content animate-fade-in">
+                <h1 class="mb-2">Weather</h1>
+                
+                <!-- Search Card -->
+                <div class="card" style="max-width: 650px; padding: 30px; margin-bottom: 25px;">
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <label style="font-weight: 600;">City or use GPS</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input id="cityInput" type="text" placeholder="e.g., Guntur, Hyderabad, Mumbai" 
+                                style="flex: 1; padding: 12px; border: 1.5px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.95rem;"
+                                onfocus="this.style.borderColor='#9c27b0'" onblur="this.style.borderColor='#ddd'">
+                            <button id="checkWeatherBtn" 
+                                style="background-color: #9c27b0; color: white; border: none; padding: 12px 22px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.95rem; white-space: nowrap; transition: background 0.2s;"
+                                onmouseover="this.style.background='#6a1b7a'" onmouseout="this.style.background='#9c27b0'">
+                                🌤️ Check Weather
+                            </button>
+                            <button id="gpsBtn" 
+                                style="background-color: #37474f; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.95rem; white-space: nowrap; transition: background 0.2s;"
+                                onmouseover="this.style.background='#263238'" onmouseout="this.style.background='#37474f'">
+                                📍 GPS
+                            </button>
+                        </div>
+                        <div id="weatherError" style="display:none; color: #d32f2f; font-size: 0.9rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Current Weather -->
+                <div id="currentWeather" class="card" style="display: none; max-width: 650px; padding: 30px; margin-bottom: 25px;">
+                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
+                        <div class="weather-icon" id="wIcon">🌤️</div>
+                        <div>
+                            <h2 id="wCity" style="margin-bottom: 4px;"></h2>
+                            <div id="wCondition" style="color: #666; font-size: 1rem;"></div>
+                        </div>
+                        <div style="margin-left: auto; text-align: right;">
+                            <div id="wTemp" style="font-size: 2.8rem; font-weight: 700; color: #9c27b0; line-height: 1;"></div>
+                            <div style="color: #888; font-size: 0.85rem;">Feels like <span id="wFeels"></span></div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; border-top: 1px solid #eee; padding-top: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: #888;">Humidity</div>
+                            <div id="wHumidity" style="font-weight: 600; font-size: 1.1rem; margin-top: 4px;"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: #888;">Wind</div>
+                            <div id="wWind" style="font-weight: 600; font-size: 1.1rem; margin-top: 4px;"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: #888;">Rain (today)</div>
+                            <div id="wRain" style="font-weight: 600; font-size: 1.1rem; margin-top: 4px;"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.8rem; color: #888;">UV Index</div>
+                            <div id="wUV" style="font-weight: 600; font-size: 1.1rem; margin-top: 4px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Farming Advisory -->
+                    <div id="wFarmingTip" style="margin-top: 20px; padding: 14px; background: #f3e5f5; border-radius: 8px; border-left: 4px solid #9c27b0; font-size: 0.9rem; color: #4a148c;"></div>
+                </div>
+
+                <!-- 5-Day Forecast -->
+                <div id="forecastSection" style="display: none; max-width: 650px;">
+                    <h2 style="margin-bottom: 15px;">5-Day Forecast</h2>
+                    <div id="forecastGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // Simulated weather data for Indian cities
+    const cityWeatherData = {
+        'guntur':     { temp: 34, feels: 38, humidity: 72, wind: '14 km/h', rain: '0 mm', uv: 9,  condition: 'Partly Cloudy', icon: '⛅', forecast: ['🌤️', '🌦️', '⛅', '☀️', '🌧️'], fTemps: [34,32,33,36,31] },
+        'hyderabad':  { temp: 31, feels: 35, humidity: 65, wind: '18 km/h', rain: '2 mm', uv: 8,  condition: 'Light Rain',    icon: '🌦️', forecast: ['🌧️', '⛅', '🌤️', '☀️', '🌦️'], fTemps: [31,29,30,33,28] },
+        'mumbai':     { temp: 29, feels: 33, humidity: 88, wind: '22 km/h', rain: '15 mm', uv: 6, condition: 'Heavy Rain',    icon: '🌧️', forecast: ['🌧️', '🌧️', '⛅', '🌦️', '🌤️'], fTemps: [29,28,29,30,31] },
+        'delhi':      { temp: 38, feels: 42, humidity: 40, wind: '12 km/h', rain: '0 mm', uv: 10, condition: 'Sunny & Hot',   icon: '☀️', forecast: ['☀️', '☀️', '⛅', '🌦️', '⛅'], fTemps: [38,39,36,33,34] },
+        'chennai':    { temp: 33, feels: 37, humidity: 78, wind: '16 km/h', rain: '5 mm', uv: 8,  condition: 'Humid & Cloudy',icon: '🌫️', forecast: ['⛅', '🌦️', '🌧️', '⛅', '☀️'], fTemps: [33,32,31,33,35] },
+        'pune':       { temp: 27, feels: 30, humidity: 68, wind: '10 km/h', rain: '8 mm', uv: 7,  condition: 'Mostly Cloudy', icon: '⛅', forecast: ['🌦️', '🌤️', '☀️', '⛅', '🌦️'], fTemps: [27,28,30,29,27] },
+        'kolkata':    { temp: 32, feels: 36, humidity: 82, wind: '14 km/h', rain: '12 mm', uv: 7, condition: 'Thunderstorm',  icon: '⛈️', forecast: ['⛈️', '🌧️', '🌦️', '⛅', '🌤️'], fTemps: [32,31,30,31,33] },
+        'bangalore':  { temp: 25, feels: 27, humidity: 60, wind: '8 km/h',  rain: '3 mm', uv: 6,  condition: 'Pleasant',      icon: '🌤️', forecast: ['🌤️', '⛅', '🌦️', '🌤️', '☀️'], fTemps: [25,24,23,25,26] },
+        'bengaluru':  { temp: 25, feels: 27, humidity: 60, wind: '8 km/h',  rain: '3 mm', uv: 6,  condition: 'Pleasant',      icon: '🌤️', forecast: ['🌤️', '⛅', '🌦️', '🌤️', '☀️'], fTemps: [25,24,23,25,26] },
+        'nagpur':     { temp: 37, feels: 41, humidity: 35, wind: '20 km/h', rain: '0 mm', uv: 10, condition: 'Hot & Sunny',   icon: '☀️', forecast: ['☀️', '⛅', '🌦️', '☀️', '☀️'], fTemps: [37,36,33,35,38] },
+        'lucknow':    { temp: 35, feels: 39, humidity: 55, wind: '15 km/h', rain: '0 mm', uv: 9,  condition: 'Clear Sky',     icon: '☀️', forecast: ['☀️', '⛅', '🌤️', '🌦️', '⛅'], fTemps: [35,36,34,32,33] },
+        'ahmedabad':  { temp: 40, feels: 44, humidity: 28, wind: '18 km/h', rain: '0 mm', uv: 11, condition: 'Very Hot',      icon: '🌡️', forecast: ['☀️', '☀️', '⛅', '🌦️', '☀️'], fTemps: [40,41,39,35,38] },
+        'visakhapatnam': { temp: 30, feels: 34, humidity: 80, wind: '20 km/h', rain: '8 mm', uv: 7, condition: 'Coastal Breeze', icon: '🌊', forecast: ['⛅', '🌦️', '🌧️', '🌤️', '☀️'], fTemps: [30,29,28,30,32] },
+    };
+
+    const farmingTips = {
+        rain:  '🌧️ Rain expected — delay pesticide / fertilizer spraying. Ensure proper field drainage to prevent waterlogging.',
+        hot:   '☀️ High temperature & UV — water crops in early morning or evening. Mulching will help retain soil moisture.',
+        humid: '💧 High humidity — watch for fungal diseases (blast, blight). Spray preventive fungicide if humidity > 80%.',
+        cool:  '🌡️ Cool weather — good for Rabi crops (wheat, mustard). Ideal time for transplanting seedlings.',
+        storm: '⛈️ Thunderstorm warning — secure loose structures, avoid field work. Check crops for lodging after storm.',
+        normal:'🌱 Weather conditions are good for farming. Ideal time for sowing, transplanting, and regular field operations.'
+    };
+
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    function getFarmingTip(data) {
+        if (data.condition.toLowerCase().includes('storm')) return farmingTips.storm;
+        if (data.rain !== '0 mm' && parseInt(data.rain) >= 10) return farmingTips.rain;
+        if (data.temp >= 38) return farmingTips.hot;
+        if (data.humidity >= 80) return farmingTips.humid;
+        if (data.temp <= 22) return farmingTips.cool;
+        return farmingTips.normal;
+    }
+
+    function showWeather(cityKey, displayName) {
+        const data = cityWeatherData[cityKey] || {
+            temp: 30, feels: 33, humidity: 65, wind: '12 km/h', rain: '0 mm', uv: 7,
+            condition: 'Partly Cloudy', icon: '⛅',
+            forecast: ['⛅', '🌤️', '☀️', '🌦️', '⛅'], fTemps: [30, 31, 33, 28, 29]
+        };
+
+        document.getElementById('wCity').textContent = displayName;
+        document.getElementById('wCondition').textContent = data.condition;
+        document.getElementById('wIcon').textContent = data.icon;
+        document.getElementById('wTemp').textContent = data.temp + '°C';
+        document.getElementById('wFeels').textContent = data.feels + '°C';
+        document.getElementById('wHumidity').textContent = data.humidity + '%';
+        document.getElementById('wWind').textContent = data.wind;
+        document.getElementById('wRain').textContent = data.rain;
+        document.getElementById('wUV').textContent = data.uv;
+        document.getElementById('wFarmingTip').textContent = getFarmingTip(data);
+
+        const currentDay = new Date().getDay();
+        const forecastGrid = document.getElementById('forecastGrid');
+        forecastGrid.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+            const d = document.createElement('div');
+            d.className = 'forecast-card';
+            d.innerHTML = `
+                <div style="font-size:0.85rem;color:#666;margin-bottom:6px;">${days[(currentDay + i) % 7]}</div>
+                <div style="font-size:2rem;">${data.forecast[i]}</div>
+                <div style="font-weight:700;font-size:1.1rem;margin-top:6px;">${data.fTemps[i]}°C</div>
+            `;
+            forecastGrid.appendChild(d);
+        }
+
+        document.getElementById('currentWeather').style.display = 'block';
+        document.getElementById('forecastSection').style.display = 'block';
+        document.getElementById('currentWeather').classList.add('animate-fade-in');
+        document.getElementById('weatherError').style.display = 'none';
+    }
+
+    document.getElementById('checkWeatherBtn').addEventListener('click', function() {
+        const city = document.getElementById('cityInput').value.trim();
+        if (!city) {
+            document.getElementById('weatherError').textContent = '⚠️ Please enter a city name.';
+            document.getElementById('weatherError').style.display = 'block';
+            return;
+        }
+        this.textContent = '🔍 Loading...';
+        this.disabled = true;
+        setTimeout(() => {
+            this.textContent = '🌤️ Check Weather';
+            this.disabled = false;
+            const key = city.toLowerCase().replace(/\s+/g, '');
+            showWeather(key, city.charAt(0).toUpperCase() + city.slice(1));
+        }, 800);
+    });
+
+    document.getElementById('gpsBtn').addEventListener('click', function() {
+        this.textContent = '📡 Locating...';
+        this.disabled = true;
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    this.textContent = '📍 GPS';
+                    this.disabled = false;
+                    // Use Hyderabad as default GPS result (no API key needed)
+                    document.getElementById('cityInput').value = 'Your Location';
+                    showWeather('hyderabad', 'Your Location (GPS)');
+                },
+                (err) => {
+                    this.textContent = '📍 GPS';
+                    this.disabled = false;
+                    document.getElementById('weatherError').textContent = '⚠️ GPS access denied. Please type your city name instead.';
+                    document.getElementById('weatherError').style.display = 'block';
+                }
+            );
+        } else {
+            this.textContent = '📍 GPS';
+            this.disabled = false;
+            document.getElementById('weatherError').textContent = '⚠️ GPS not supported in your browser.';
+            document.getElementById('weatherError').style.display = 'block';
+        }
+    });
+
+    document.getElementById('cityInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('checkWeatherBtn').click();
+    });
+    </script>
+</body>
+</html>
