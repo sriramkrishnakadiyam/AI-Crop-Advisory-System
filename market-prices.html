@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Prices - AI Crop Advisory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <style>
+        .crop-picker { max-width: 520px; margin-bottom: 25px; padding: 22px; }
+        .crop-picker label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .crop-picker input { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 5px; font: inherit; box-sizing: border-box; }
+        .selected-price { display: none; margin-top: 15px; color: #285a5a; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" style="display: flex; flex-direction: column;">
+            <div class="sidebar-header" style="text-align: left; padding-left: 20px; align-items: flex-start; padding-top: 20px; height: auto; border-bottom: none;">
+                <h2 style="font-size: 1.5rem; line-height: 1.2;">Farmer Friendly<br>App</h2>
+            </div>
+            <nav class="sidebar-nav" style="flex: 1;">
+                <a href="dashboard.html"><span style="display: inline-block; width: 20px;">&#128202;</span> Dashboard</a>
+                <a href="crop-recommendation.html"><span style="display: inline-block; width: 20px;">&#127793;</span> Crop Recommendation</a>
+                <a href="disease-detection.html"><span style="display: inline-block; width: 20px;">&#129440;</span> Disease Detection</a>
+                <a href="fertilizer-advisory.html"><span style="display: inline-block; width: 20px;">&#129514;</span> Fertilizer Advisory</a>
+                <a href="ai-chatbot.html"><span style="display: inline-block; width: 20px;">&#129302;</span> AI Chatbot</a>
+                <a href="weather.html"><span style="display: inline-block; width: 20px;">&#9729;&#65039;</span> Weather</a>
+                <a href="market-prices.html" class="active"><span style="display: inline-block; width: 20px;">&#128200;</span> Market Prices</a>
+            </nav>
+            <div style="padding: 15px; text-align: center; font-size: .75rem; color: rgba(255,255,255,.8);">&copy; 2026</div>
+        </aside>
+        <main class="main-content">
+            <div class="page-content animate-fade-in">
+                <h1 class="mb-2">Market Prices</h1>
+                <section class="card crop-picker">
+                    <label for="marketCrop">Type crop name</label>
+                    <input id="marketCrop" type="text" list="marketCropOptions" autocomplete="off" placeholder="Type a crop name, e.g. Rice">
+                    <datalist id="marketCropOptions"></datalist>
+                    <p id="selectedPrice" class="selected-price"></p>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        const cropPrices = {
+            Rice: ['Rs. 18,500', 'per 100 kg', '2.4%'], Wheat: ['Rs. 16,800', 'per 100 kg', '1.6%'],
+            Maize: ['Rs. 14,200', 'per 100 kg', '1.1%'], Barley: ['Rs. 15,300', 'per 100 kg', '0.9%'],
+            Sorghum: ['Rs. 13,900', 'per 100 kg', '1.3%'], Millet: ['Rs. 17,100', 'per 100 kg', '1.8%'],
+            Sugarcane: ['Rs. 6,100', 'per 100 kg', '0.8%'], Cotton: ['Rs. 7,450', 'per 100 kg', '2.0%'],
+            Jute: ['Rs. 8,250', 'per 100 kg', '1.4%'], Groundnut: ['Rs. 23,600', 'per 100 kg', '2.8%'],
+            Soybean: ['Rs. 19,400', 'per 100 kg', '1.7%'], Sunflower: ['Rs. 22,100', 'per 100 kg', '2.2%'],
+            Mustard: ['Rs. 21,500', 'per 100 kg', '1.5%'], Chickpea: ['Rs. 20,800', 'per 100 kg', '1.9%'],
+            'Pigeon Pea': ['Rs. 24,300', 'per 100 kg', '2.1%'], Lentil: ['Rs. 25,100', 'per 100 kg', '1.2%'],
+            'Black Gram': ['Rs. 26,400', 'per 100 kg', '1.8%'], 'Green Gram': ['Rs. 27,200', 'per 100 kg', '2.3%'],
+            Potato: ['Rs. 145', 'per kg', '0.7%'], Tomato: ['Rs. 220', 'per kg', '4.8%'],
+            Onion: ['Rs. 165', 'per kg', '1.6%'], Chili: ['Rs. 540', 'per kg', '3.4%'],
+            Brinjal: ['Rs. 190', 'per kg', '1.1%'], Cabbage: ['Rs. 110', 'per kg', '0.6%'],
+            Cauliflower: ['Rs. 180', 'per kg', '1.3%'], Carrot: ['Rs. 210', 'per kg', '1.5%'],
+            Okra: ['Rs. 260', 'per kg', '2.0%'], Banana: ['Rs. 175', 'per kg', '1.5%'],
+            Mango: ['Rs. 380', 'per kg', '3.2%'], Papaya: ['Rs. 160', 'per kg', '1.0%']
+        };
+        const marketCrop = document.getElementById('marketCrop');
+        const marketCropOptions = document.getElementById('marketCropOptions');
+        const selectedPrice = document.getElementById('selectedPrice');
+        Object.keys(cropPrices).forEach(crop => {
+            const option = document.createElement('option');
+            option.value = crop;
+            marketCropOptions.appendChild(option);
+        });
+        marketCrop.addEventListener('input', () => {
+            const cropName = Object.keys(cropPrices).find(crop => crop.toLowerCase() === marketCrop.value.trim().toLowerCase());
+            const details = cropPrices[cropName];
+            selectedPrice.style.display = details ? 'block' : 'none';
+            if (details) selectedPrice.innerHTML = `<strong>${cropName}: ${details[0]}</strong> ${details[1]} &nbsp;|&nbsp; &#8593; ${details[2]} this week`;
+        });
+    </script>
+</body>
+</html>
