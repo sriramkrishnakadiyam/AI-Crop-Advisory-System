@@ -47,12 +47,13 @@ class FertilizerEngine {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Populate crops in select if possible
-    const cropSelect = document.getElementById('crop');
-    if (cropSelect && typeof cropData !== 'undefined') {
-        cropSelect.innerHTML = '<option value="">Select Crop...</option>';
+    // Populate the suggestions while still allowing the farmer to type a crop name.
+    const cropOptions = document.getElementById('cropOptions');
+    if (cropOptions && typeof cropData !== 'undefined') {
         cropData.forEach(c => {
-            cropSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+            const option = document.createElement('option');
+            option.value = c.name;
+            cropOptions.appendChild(option);
         });
     }
 
@@ -61,7 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const crop = document.getElementById('crop').value;
+            const cropInput = document.getElementById('crop').value.trim();
+            const matchingCrop = cropData.find(c => c.name.toLowerCase() === cropInput.toLowerCase());
+            const crop = matchingCrop ? matchingCrop.name : cropInput;
             const ph = document.getElementById('ph') ? parseFloat(document.getElementById('ph').value) : 6.5;
             const n = document.getElementById('n') ? parseFloat(document.getElementById('n').value) : 50;
             const p = document.getElementById('p') ? parseFloat(document.getElementById('p').value) : 30;
@@ -87,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 resultsDiv.style.display = 'block';
                 resultsDiv.classList.add('animate-fade-in');
+            } else {
+                alert('Please enter a crop from the suggested crop names.');
             }
         });
     }

@@ -23,12 +23,13 @@
                 <a href="fertilizer-advisory.html"><span style="display: inline-block; width: 20px;">🧪</span> Fertilizer Advisory</a>
                 <a href="ai-chatbot.html"><span style="display: inline-block; width: 20px;">🤖</span> AI Chatbot</a>
                 <a href="weather.html"><span style="display: inline-block; width: 20px;">☁️</span> Weather</a>
+                <a href="market-prices.html"><span style="display: inline-block; width: 20px;">📈</span> Market Prices</a>
                 
                 <div style="padding: 15px 25px; margin-top: 10px;">
                     <div style="color: rgba(255,255,255,0.8); margin-bottom: 8px; font-weight: 500;">
                         <span style="display: inline-block; width: 20px;">🌍</span> Language
                     </div>
-                    <select style="width: 100%; padding: 8px; border-radius: 4px; border: none; font-family: inherit; color: var(--text-main);">
+                    <select class="language-selector" aria-label="Select language" style="width: 100%; padding: 8px; border-radius: 4px; border: none; font-family: inherit; color: var(--text-main);">
                         <option value="en">English</option>
                         <option value="hi">Hindi</option>
                         <option value="te">Telugu</option>
@@ -49,19 +50,21 @@
 
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             <label style="font-weight: 600;">Crop Type</label>
-                            <select id="ddCrop" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: white; font-family: inherit;">
-                                <option value="">-- Select crop --</option>
-                                <option>Rice</option>
-                                <option>Wheat</option>
-                                <option>Maize</option>
-                                <option>Cotton</option>
-                                <option>Sugarcane</option>
-                                <option>Tomato</option>
-                                <option>Potato</option>
-                                <option>Mango</option>
-                                <option>Banana</option>
-                                <option>Groundnut</option>
-                            </select>
+                            <input id="ddCrop" type="text" list="diseaseCropOptions" required autocomplete="off"
+                                placeholder="Type a crop name, e.g. Rice"
+                                style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: white; font-family: inherit;">
+                            <datalist id="diseaseCropOptions">
+                                <option value="Rice"></option>
+                                <option value="Wheat"></option>
+                                <option value="Maize"></option>
+                                <option value="Cotton"></option>
+                                <option value="Sugarcane"></option>
+                                <option value="Tomato"></option>
+                                <option value="Potato"></option>
+                                <option value="Mango"></option>
+                                <option value="Banana"></option>
+                                <option value="Groundnut"></option>
+                            </datalist>
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -174,7 +177,8 @@
     });
 
     document.getElementById('detectBtn').addEventListener('click', function() {
-        const crop = document.getElementById('ddCrop').value;
+        const cropInput = document.getElementById('ddCrop').value.trim();
+        const crop = Object.keys(diseaseDB).find(name => name.toLowerCase() === cropInput.toLowerCase()) || cropInput;
         const symptoms = document.getElementById('ddSymptoms').value.toLowerCase();
 
         if (!crop) {

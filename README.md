@@ -5,7 +5,6 @@ A modern agriculture web application that provides crop recommendations and agri
 ## Features
 - **AI Crop Recommendation**: Rule-based scoring engine computing compatibility across soil, weather, season, and history to recommend Best Crop and alternatives.
 - **Fertilizer Advisory** (Planned): Computes nitrogen, phosphorus, and potassium status and suggests fertilizer categories.
-- **Irrigation Advisory** (Planned): Provides irrigation priorities based on soil moisture and weather.
 - **Crop Rotation** (Planned): Suggests next crops for optimal soil health.
 - **Yield Prediction** (Planned): Estimates production based on crop, area, and environmental factors.
 
